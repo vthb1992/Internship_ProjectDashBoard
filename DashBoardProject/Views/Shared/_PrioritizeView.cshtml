@@ -1,0 +1,91 @@
+﻿@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.PrioritizeProjectPAC>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <input type="submit" value="Save" class="btn btn-lg btn-success-outline p-x" />
+       
+    </div>
+</div>
+
+<div class="panel panel-success">
+    <div class="panel-heading">Prioritized</div>
+    <div class="panel-body">
+        <ul id="sortable_list_header1">
+            <li class="clearfix">
+                <div class="listitem_rank"> Rank</div>
+                <div class="listitem_ID"> ID</div>
+                <div class="listitem_rankedProjects"> BSCM/Project Name</div>
+                <div class="listitem_PAC"> PAC</div>
+                <div class="listitem_pacRank"> Overall Rank</div>
+                <div class="listitem_ITHR"> IT/HR</div>
+                <div class="listitem_benefit"> Benefit</div>
+            </li>
+        </ul>
+        <hr class="m-t-0 m-b-0">
+        <ul id="sortable_list1" class="connectedSortable">
+            @for (var i = 0; i < Model.Count(); i++)
+            {
+                if (@Model[i].pacRank != 0)
+                {
+                    <li class="clearfix">
+                        <div class="listitem_rank">
+                            @Html.TextBoxFor(model => Model[i].pacRank, new { style = "color:black;width:32px;text-align:center" })
+                        </div>
+                        <div class="listitem_ID handler"> @Html.DisplayFor(Model => Model[i].projectID)@Html.HiddenFor(Model => Model[i].projectID)</div>
+                        <div class="listitem_rankedProjects handler"> @Html.DisplayFor(Model => Model[i].projectTitle)@Html.HiddenFor(Model => Model[i].projectTitle)</div>
+                        <div class="listitem_PAC handler"> @Html.DisplayFor(Model => Model[i].PAC) @Html.HiddenFor(Model => Model[i].PAC)</div>
+                        <div class="listitem_pacRank handler">@Html.DisplayFor(Model => Model[i].overallRank)@Html.HiddenFor(Model => Model[i].overallRank)</div>
+                        <div class="listitem_ITHR">
+                            @*@Html.DisplayFor(Model => Model[i].ITHR)@Html.HiddenFor(Model => Model[i].ITHR)*@
+                            @Html.TextBoxFor(model => Model[i].ITHR, new { style = "color:black;width:50px;text-align:center" })
+
+                        </div>
+                        <div class="listitem_benefit handler"> @Html.DisplayFor(Model => Model[i].benefit)@Html.HiddenFor(Model => Model[i].benefit)</div>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+
+
+<div class="panel panel-danger">
+    <div class="panel-heading">Not Prioritized Yet</div>
+    <div class="panel-body">
+        <ul id="sortable_list_header2">
+            <li class="clearfix">
+                <div class="listitem_rank"> Rank</div>
+                <div class="listitem_ID"> ID</div>
+                <div class="listitem_rankedProjects"> BSCM/Project Name</div>
+                <div class="listitem_PAC"> PAC</div>
+                <div class="listitem_pacRank"> Overall Rank</div>
+                <div class="listitem_ITHR"> IT/HR</div>
+                <div class="listitem_benefit"> Benefit</div>
+            </li>
+        </ul>
+        <hr class="m-t-0 m-b-0">
+        <ul id="sortable_list2" class="connectedSortable">
+            @for (var j = 0; j < Model.Count(); j++)
+            {
+                if (@Model[j].pacRank == 0)
+                {
+                    <li class="clearfix">
+                        <div class="listitem_rank">
+                            @Html.TextBoxFor(model => Model[j].pacRank, new { style = "color:black;width:32px;text-align:center" })
+                        </div>
+                        <div class="listitem_ID handler"> @Html.DisplayFor(Model => Model[j].projectID)@Html.HiddenFor(Model => Model[j].projectID)</div>
+                        <div class="listitem_rankedProjects handler"> @Html.DisplayFor(Model => Model[j].projectTitle)@Html.HiddenFor(Model => Model[j].projectTitle)</div>
+                        <div class="listitem_PAC handler"> @Html.DisplayFor(Model => Model[j].PAC) @Html.HiddenFor(Model => Model[j].PAC)</div>
+                        <div class="listitem_pacRank handler">@Html.DisplayFor(Model => Model[j].overallRank)@Html.HiddenFor(Model => Model[j].overallRank)</div>
+                        <div class="listitem_ITHR">
+                            @*@Html.DisplayFor(Model => Model[j].ITHR)@Html.HiddenFor(Model => Model[j].ITHR)*@
+                            @Html.TextBoxFor(model => Model[j].ITHR, new { style = "color:black;width:50px;text-align:center" })
+                        </div>
+                        <div class="listitem_benefit handler"> @Html.DisplayFor(Model => Model[j].benefit)@Html.HiddenFor(Model => Model[j].benefit)</div>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>

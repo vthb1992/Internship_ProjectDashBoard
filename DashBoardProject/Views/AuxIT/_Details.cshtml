@@ -1,0 +1,124 @@
+﻿@using DashBoardProject.Models;
+@model JiraIssues
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">(@Model.key) @Model.summary</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <table class="table">
+                    <tr>
+                        <th>Type: </th>
+                        <td>@Model.type</td>
+                    </tr>
+                    <tr>
+                        <th>Priority: </th>
+                        <td>@Model.priority</td>
+                    </tr>
+                    <tr>
+                        <th>Status: </th>
+                        <td>@Model.status</td>
+                    </tr>
+                    <tr>
+                        <th>Resolution: </th>
+                        <td>@Model.resolution</td>
+                    </tr>
+                    <tr>
+                        <th>Assignee: </th>
+                        <td>@Model.assignee</td>
+                    </tr>
+                    <tr>
+                        <th>Sprint: </th>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="panel panel-default">
+        <div class="panel-heading panel-default">Issues In Epic</div>
+            <div class="table-full">
+                <div class="table-responsive">
+                    <table class="table" data-sort="table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Summary</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Assignee</th>
+                                <th>Resolution</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.issuesInEpic)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(m => item.Key.Value)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => item.Summary)
+                                    </td>
+                                    <td>
+                                        @if (item.Type.Id == "6")
+                                        {
+                                            <span>Sub-Task</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(m => item.Type.Name);
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => item.Status.Name)
+                                    </td>
+                                    <td>
+                                        @if (item.Assignee != null)
+                                        {
+                                            @Html.DisplayFor(m => item.Assignee)
+                                        }
+                                        else
+                                        {
+                                            <span>None</span>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => item.Resolution.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(m => item.Priority.Name)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cool, got it!</button>
+        </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // call the tablesorter plugin
+        if(@Model.issuesInEpic.Count > 0){
+            $(".table").tablesorter({
+                // Sort on the second column, in ascending order
+                sortList: [[3, 1]]
+            });
+
+        }
+       
+    });
+
+
+</script>

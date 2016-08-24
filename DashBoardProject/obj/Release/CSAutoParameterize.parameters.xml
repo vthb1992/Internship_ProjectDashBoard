@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-DashBoardProject-20160609032045.mdf;Initial Catalog=aspnet-DashBoardProject-20160609032045;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\VICTORTANHB\\Documents\\Visual\ Studio\ 2015\\Projects\\DashBoardProject\\DashBoardProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="PrioritizationDBContext-Web.config Connection String" description="PrioritizationDBContext Connection String used in web.config by the application to access the database." defaultValue="data source=BOWSQL174\BOMSSPROD128A;initial catalog=fct_apps;persist security info=True;user id=fct_bpm;password=fabcentralbpm;MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\VICTORTANHB\\Documents\\Visual\ Studio\ 2015\\Projects\\DashBoardProject\\DashBoardProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='PrioritizationDBContext']/@connectionString" />
+  </parameter>
+  <parameter name="PrioritizationDBContext1-Web.config Connection String" description="PrioritizationDBContext1 Connection String used in web.config by the application to access the database." defaultValue="data source=BOWSQL174\BOMSSPROD128A;initial catalog=fct_apps;persist security info=True;user id=fct_bpm;password=fabcentralbpm;multipleactiveresultsets=True;application name=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\VICTORTANHB\\Documents\\Visual\ Studio\ 2015\\Projects\\DashBoardProject\\DashBoardProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='PrioritizationDBContext1']/@connectionString" />
+  </parameter>
+  <parameter name="BOMSSPROD142ProjectsDBContext-Web.config Connection String" description="BOMSSPROD142ProjectsDBContext Connection String used in web.config by the application to access the database." defaultValue="data source=BOMSSPROD142;initial catalog=BOPROJSRV1_ProjectServer_Reporting;persist security info=True;user id=SSRS_PP_adhoc_rpt;password=snowboard;MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\VICTORTANHB\\Documents\\Visual\ Studio\ 2015\\Projects\\DashBoardProject\\DashBoardProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='BOMSSPROD142ProjectsDBContext']/@connectionString" />
+  </parameter>
+  <parameter name="test-Web.config Connection String" description="test Connection String used in web.config by the application to access the database." defaultValue="data source=(LocalDb)\MSSQLLocalDB;initial catalog=DashBoardProject.Models.test;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\VICTORTANHB\\Documents\\Visual\ Studio\ 2015\\Projects\\DashBoardProject\\DashBoardProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='test']/@connectionString" />
+  </parameter>
+</parameters>

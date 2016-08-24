@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "TTMCY";
+
+}
+
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.Project>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">TTMC Yield </h2>
+    </div>
+</div>
+
+<ul class="nav nav-pills">
+    <li class="active">
+        <a href="@Url.Action("Index","TTMCY")">
+            <span class="icon icon-folder"></span>
+            All Projects
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("Prioritize","TTMCY")">
+            <span class="icon icon-shuffle"></span>
+            Prioritize Projects
+        </a>
+    </li>
+</ul>
+<hr class="m-t">
+
+@Html.Partial("_ProjectViewTable", Model)
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // call the tablesorter plugin
+        $(".table").tablesorter({
+            // Sort on the second column, in ascending order
+            sortList: [[0, 0]]
+        });
+    });
+
+
+</script>

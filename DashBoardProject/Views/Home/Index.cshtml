@@ -1,0 +1,251 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    ViewBag.Title = "OCT Portfolio Management";
+
+}
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">Overview</h2>
+        <h1>@ViewBag.testing</h1>
+    </div>
+    <div class="btn-toolbar dashhead-toolbar">
+        
+            @using (Html.BeginForm("Index", "Home",FormMethod.Post))
+            {
+                <div class="btn-toolbar-item input-with-icon">
+                    <input id="currentDateSelected" name="currentDateSelected" type="text" value=@(ViewBag.CurrentDate) class="form-control" data-provide="datepicker" />
+                    <span class="icon icon-calendar"></span>
+                    <input style ="visibility:hidden" id="submitDate" type="submit" value="Submit" />
+
+                </div>
+            }        
+    </div>
+</div>
+
+<hr class="m-t">
+
+<div class="row text-center m-t-lg">
+    <h3 class="dashhead-title text-left text-primary">&nbsp;&nbsp;&nbsp;BSCM</h3><br />
+    <div class="col-sm-4 m-b-md">
+        <div class="w-lg m-x-auto">
+            <canvas class="ex-graph"
+                    width="200" height="200"
+                    data-chart="doughnut"
+                    data-value="[{ value: 230, color: '#1ca8dd', label: 'Returning' }, { value: 130, color: '#1bc98e', label: 'New' }]"
+                    data-segment-stroke-color="#252830"></canvas>
+        </div>
+        <strong class="text-muted">Metric 1</strong>
+        <h3>Initiate and Plan</h3>
+    </div>
+    <div class="col-sm-4 m-b-md">
+        <div class="w-lg m-x-auto">
+            <canvas class="ex-graph"
+                    width="200" height="200"
+                    data-chart="doughnut"
+                    data-value="[{ value: 330, color: '#1ca8dd', label: 'Recurring' }, { value: 30, color: '#1bc98e', label: 'New' }]"
+                    data-segment-stroke-color="#252830"></canvas>
+        </div>
+        <strong class="text-muted">Metric 2</strong>
+        <h3>On Schedule</h3>
+    </div>
+    <div class="col-sm-4 m-b-md">
+        <div class="w-lg m-x-auto">
+            <canvas class="ex-graph"
+                    width="200" height="200"
+                    data-chart="doughnut"
+                    data-value="[{ value: 100, color: '#1ca8dd', label: 'Referrals' }, { value: 260, color: '#1bc98e', label: 'Direct' }]"
+                    data-segment-stroke-color="#252830"></canvas>
+        </div>
+        <strong class="text-muted">Metric 3</strong>
+        <h3>Closed on Schedule</h3>
+    </div>
+</div>
+
+@*<div style="display:none;">
+    <input type="button" id="changedate" onclick="location.href='@Url.Action("Projects","Home",new { date = ViewBag.CurrentDate } )'" />
+</div>*@
+
+<div class="row text-center m-t-lg">
+    <h3 class="dashhead-title text-left text-primary">&nbsp;&nbsp;&nbsp;Projects</h3><br />
+    <div class="col-sm-4 m-b-md">
+        <div class="w-lg m-x-auto">
+            <canvas class="ex-graph"
+                    width="200" height="200"
+                    data-chart="doughnut"
+                    data-value="[{ value: 230, color: '#1ca8dd', label: 'Returning' }, { value: 130, color: '#1bc98e', label: 'New' }]"
+                    data-segment-stroke-color="#252830"></canvas>
+        </div>
+        <strong class="text-muted">Metric 1</strong>
+        <h3>Initiate and Plan</h3>
+    </div>
+    <div class="col-sm-4 m-b-md">
+        <div class="w-lg m-x-auto">
+            <canvas class="ex-graph"
+                    width="200" height="200"
+                    data-chart="doughnut"
+                    data-value="[{ value: 330, color: '#1ca8dd', label: 'Recurring' }, { value: 30, color: '#1bc98e', label: 'New' }]"
+                    data-segment-stroke-color="#252830"></canvas>
+        </div>
+        <strong class="text-muted">Metric 2</strong>
+        <h3>On Schedule</h3>
+    </div>
+    <div class="col-sm-4 m-b-md">
+        <div class="w-lg m-x-auto">
+            <canvas class="ex-graph"
+                    width="200" height="200"
+                    data-chart="doughnut"
+                    data-value="[{ value: 100, color: '#1ca8dd', label: 'Referrals' }, { value: 260, color: '#1bc98e', label: 'Direct' }]"
+                    data-segment-stroke-color="#252830"></canvas>
+        </div>
+        <strong class="text-muted">Metric 3</strong>
+        <h3>Closed on Schedule</h3>
+    </div>
+</div>
+
+<div class="hr-divider m-t-md m-b">
+    <h3 class="hr-divider-content hr-divider-heading">Quick stats</h3>
+</div>
+<div class="row statcards">
+    <div class="col-sm-6 col-lg-3 m-b">
+        <div class="statcard statcard-success">
+            <div class="p-a">
+                <span class="statcard-desc">Initate and Plan</span>
+                <h2 class="statcard-number">
+                    12,938
+                    <small class="delta-indicator delta-positive">5%</small>
+                </h2>
+                <hr class="statcard-hr m-b-0">
+            </div>
+            <canvas id="sparkline1" width="378" height="94" class="sparkline" data-chart="spark-line" data-value="[{data:[28,68,41,43,96,45,100]}]" data-labels="['a','b','c','d','e','f','g']" style="width: 189px; height: 47px;"></canvas>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 m-b">
+        <div class="statcard statcard-danger">
+            <div class="p-a">
+                <span class="statcard-desc">On Schedule</span>
+                <h2 class="statcard-number">
+                    758
+                    <small class="delta-indicator delta-negative">1.3%</small>
+                </h2>
+                <hr class="statcard-hr m-b-0">
+            </div>
+            <canvas id="sparkline1" width="378" height="94" class="sparkline" data-chart="spark-line" data-value="[{data:[4,34,64,27,96,50,80]}]" data-labels="['a', 'b','c','d','e','f','g']" style="width: 189px; height: 47px;"></canvas>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 m-b">
+        <div class="statcard statcard-info">
+            <div class="p-a">
+                <span class="statcard-desc">Closed</span>
+                <h2 class="statcard-number">
+                    1,293
+                    <small class="delta-indicator delta-positive">6.75%</small>
+                </h2>
+                <hr class="statcard-hr m-b-0">
+            </div>
+            <canvas id="sparkline1" width="378" height="94" class="sparkline" data-chart="spark-line" data-value="[{data:[12,38,32,60,36,54,68]}]" data-labels="['a', 'b','c','d','e','f','g']" style="width: 189px; height: 47px;"></canvas>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 m-b">
+        <div class="statcard statcard-warning">
+            <div class="p-a">
+                <span class="statcard-desc">Backlog</span>
+                <h2 class="statcard-number">
+                    758
+                    <small class="delta-indicator delta-negative">1.3%</small>
+                </h2>
+                <hr class="statcard-hr m-b-0">
+            </div>
+            <canvas id="sparkline1" width="378" height="94" class="sparkline" data-chart="spark-line" data-value="[{data:[43,48,52,58,50,95,100]}]" data-labels="['a', 'b','c','d','e','f','g']" style="width: 189px; height: 47px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<hr class="m-t">
+
+<div class="row">
+    <div class="col-md-6 m-b-md">
+        <div class="list-group">
+            <h4 class="list-group-header">
+                Portfolio Demand
+            </h4>
+
+            <a class="list-group-item" href="#">
+                <span class="list-group-progress" style="width: 40%;"></span>
+                <span class="pull-right text-muted">40%</span>
+                Max Cuts
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="list-group-progress" style="width: 20%;"></span>
+                <span class="pull-right text-muted">20%</span>
+                Cash Cost
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="list-group-progress" style="width: 15%;"></span>
+                <span class="pull-right text-muted">15%</span>
+                Cycle Time
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="list-group-progress" style="width: 5%;"></span>
+                <span class="pull-right text-muted">5%</span>
+                Quality
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="list-group-progress" style="width: 10%;"></span>
+                <span class="pull-right text-muted">10%</span>
+                TTMC Yield
+            </a>
+        </div>
+      
+        @Html.ActionLink("All Projects", "Index", "AllProjects", null, new { @class = "btn btn-primary-outline p-x" })
+
+    </div>
+    <div class="col-md-6 m-b-md">
+        <div class="list-group">
+            <h4 class="list-group-header">
+                Portfolio Status
+            </h4>
+
+            <a class="list-group-item" href="#">
+                <span class="pull-right text-muted">3,929,481</span>
+                Initiate
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="pull-right text-muted">1,143,393</span>
+                Plan
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="pull-right text-muted">938,287</span>
+                In Progress
+            </a>
+
+            <a class="list-group-item" href="#">
+                <span class="pull-right text-muted">749,393</span>
+                On Hold
+            </a>
+        </div>
+        @Html.ActionLink("All Projects", "Index", "AllProjects", null, new { @class = "btn btn-primary-outline p-x" })
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#currentDateSelected").change(function () {
+            if ($("#currentDateSelected").val() != '@(ViewBag.CurrentDate)') {
+                $("#submitDate").click();
+            }
+
+    });
+
+
+</script>

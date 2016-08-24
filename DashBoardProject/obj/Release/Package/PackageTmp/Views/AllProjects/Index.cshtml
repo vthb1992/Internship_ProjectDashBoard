@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "All Projects";
+
+}
+
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.Project>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">All Projects</h2>
+    </div>
+@using (Html.BeginForm("Index", "AllProjects", FormMethod.Get))
+{
+    <div class="dashhead-toolbar">
+        <div class="input-with-icon dashhead-toolbar-item">
+            <input id="searchTitle" name="searchTitle" class="form-control" type="text" placeholder="All Project Titles ..">
+            <span class="icon icon-text-document"></span>
+        </div>
+        <span class="dashhead-toolbar-divider hidden-s"></span>
+        <div class="input-with-icon dashhead-toolbar-item">
+            <input id="searchPhase" name="searchPhase" class="form-control" type="text" placeholder="All Phases..">
+            <span class="icon icon-progress-one"></span>
+        </div>
+        <span class="dashhead-toolbar-divider hidden-s"></span>
+        <div class="input-with-icon dashhead-toolbar-item">
+            <input id="searchManager" name="searchManager" class="form-control" type="text" placeholder="All Managers..">
+            <span class="icon icon-man"></span>
+        </div>
+        <span class="dashhead-toolbar-divider hidden-s"></span>
+        <button type="submit" class="btn btn-default">
+            <span class="icon icon-magnifying-glass"></span> Filter
+        </button>
+        </div>
+
+}
+    </div>
+
+<hr class="m-t">
+@if(ViewBag.haveSearchResults == true)
+{
+    @Html.Partial("_ProjectViewTable", Model)
+}
+else
+{
+    <div class="alert alert-danger" style="display: block;" id="noResultsPanel">
+        <span class="text-center">No results found.</span>
+    </div>
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // call the tablesorter plugin
+        $(".table").tablesorter({
+            // Sort on the second column, in ascending order
+            sortList: [[0, 0]]
+        });
+    });
+
+
+</script>

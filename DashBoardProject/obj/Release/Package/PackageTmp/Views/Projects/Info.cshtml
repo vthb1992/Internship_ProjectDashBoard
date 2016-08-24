@@ -1,0 +1,362 @@
+﻿@{
+    Layout = null;
+}
+
+@using DashBoardProject.Models;
+@model DashBoardProject.Models.ProjectInfoModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width initial-scale=1.0" />
+    <title>@ViewBag.projectInfo.projectID - Project Case Information</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+  
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>@ViewBag.projectInfo.projectName</h3>
+            </div>
+            <div class="col-md-6 pull-right">
+                <div class="btn-group pull-right" role="group" aria-label="...">
+                    <button class="btn btn-success-outline" id="scopeBtn">Scope</button>
+                    <button class="btn btn-success-outline" id="scheduleBtn">Schedule</button>
+                    <button class="btn btn-success-outline" id="resourceBtn">Resource</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-primary">Sponsorship</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>PAC</th>
+                            <td>@ViewBag.projectInfo.program</td>
+                        </tr>
+
+                        <tr>
+                            <th>Sponsor</th>
+                            <td>@ViewBag.projectInfo.projectSponsor</td>
+                        </tr>
+                        <tr>
+                            <th>Project Manager</th>
+                            <td>@ViewBag.projectInfo.projectManagerName</td>
+                        </tr>
+                        <tr>
+                            <th>Key SME</th>
+                            <td>@ViewBag.projectInfo.SME</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            @*Scope*@
+            <div class="col-md-6" id="scopeSect">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-primary">Scope</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <td>@Html.Raw(ViewBag.projectInfo.projectScope)</td>
+                        </tr>     
+                    </table>
+                </div>
+            </div>
+
+            @*Schedule*@
+            <div class="col-md-6" id="scheduleSect">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-primary">Schedule</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <td></td>
+                            <th>Baseline</th>
+                            <th>Current</th>
+                        </tr>
+                        <tr>
+                            <th>Start</th>
+                            <td>@ViewBag.projectInfo.baselineStartDateDisplay</td>
+                            <td>@ViewBag.projectInfo.projectStartDateDisplay</td>
+                        </tr>
+                        <tr>
+                            <th>End</th>
+                            <td>@ViewBag.projectInfo.baselineFinishDateDisplay</td>
+                            <td>@ViewBag.projectInfo.projectFinishDateDisplay</td>
+                        </tr>
+                        <tr>
+                            <td>% Complete</td>
+                            <td colspan="2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@ViewBag.projectInfo.actualPercentageCompleted" aria-valuemin="0" aria-valuemax="100" style="width: @(ViewBag.projectInfo.actualPercentageCompleted)%;">
+                                        @(ViewBag.projectInfo.actualPercentageCompleted)%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            @*Resource*@
+            <div class="col-md-6" id="resourceSect">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-primary">Resource</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Status</th>
+                            <td>@ViewBag.projectInfo.resourceStatus</td>
+                        </tr>
+
+                        <tr>
+                            <th>Status Details</th>
+                            <td>@ViewBag.projectInfo.resourceStatusDetail</td>
+                        </tr>
+                        <tr>
+                            <th>Substaining Resource</th>
+                            <td>@ViewBag.projectInfo.substainingResource</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Metric Performance</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-4">Initiate and Plan</th>
+                                    <th class="col-md-4">Inline Schedule</th>
+                                    <th class="col-md-4">Schedule at Close</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="statcard statcard-success p-a-md m-b">
+                                            <h3 class="statcard-number">
+                                                30
+                                            </h3>
+                                            <span class="statcard-desc">Days in Plan</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="statcard statcard-warning p-a-md m-b">
+                                            <h3 class="statcard-number">
+                                                +20
+                                            </h3>
+                                            <span class="statcard-desc">Delta to Schedule</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="statcard statcard-desc p-a-md m-b">
+                                            <h3 class="statcard-number">
+                                                TBD
+                                            </h3>
+                                            <span class="statcard-desc">Delta at Close</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Objective</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Scope</th>
+                                    <th>Deliverable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Html.Raw(ViewBag.projectInfo.projectDesc)</td>
+                                    <td>@Html.Raw(ViewBag.projectInfo.projectScope)</td>
+                                    <td>
+                                        @Html.Raw(ViewBag.projectInfo.projectDeliverables)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="row"></div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Issues / Recommendations</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Issue</th>
+                                    <th>Owner</th>
+                                    <th>Action Plan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listOfIssues)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.Raw(item.title)
+                                        </td>
+                                        <td>
+                                            @Html.Raw(item.assignedToResource)
+                                        </td>
+                                        <td>
+                                            @Html.Raw(item.actionPlan)
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Milestones</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Milestone</th>
+                                    <th>% Complete</th>
+                                    <th>Finish Date</th>
+                                    <th>Baseline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listOfDeliverables)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (item.taskPercentCompleted == 100)
+                                            {
+                                                <span class="icon icon-check" aria-hidden="true"></span>
+                                            }
+                                        </td>
+
+                                        <td>@Html.DisplayFor(m => item.taskName)</td>
+                                        <td>@Html.DisplayFor(m => item.taskPercentCompleted)</td>
+                                        <td>
+                                            @if (item.taskPercentCompleted == 100)
+                                            {
+                                                <em>Complete</em>
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(m => item.taskFinishDateDisplay)
+                                            }
+                                        </td>
+                                        <td>@Html.DisplayFor(m => item.taskBaseline0FinishDateDisplay)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+        <div class="text-sm-right">
+            <text id="back-to-top" style="cursor:pointer;visibility:hidden">Back to Top</text>
+        </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Micron Technology, Inc. </p>
+        </footer>
+
+
+        
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#scopeSect").show();
+        $("#scheduleSect").hide();
+        $("#resourceSect").hide();
+
+        $("#scopeBtn").click(function () {
+            $("#scopeSect").show();
+            $("#scheduleSect").hide();
+            $("#resourceSect").hide();
+        
+        });
+
+        $("#scheduleBtn").click(function () {
+            $("#scopeSect").hide();
+            $("#scheduleSect").show();
+            $("#resourceSect").hide();
+        
+        });
+
+        $("#resourceBtn").click(function () {
+            $("#scopeSect").hide();
+            $("#scheduleSect").hide();
+            $("#resourceSect").show();
+
+        });
+
+
+        $(window).scroll(function () {
+            document.getElementById("back-to-top").style.visibility = "visible";
+
+        });
+        $("#back-to-top").click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 1000);
+        });
+
+    });
+   
+
+
+</script>

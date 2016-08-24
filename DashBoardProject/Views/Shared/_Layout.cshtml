@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Dashboard</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    <div class="container" style="width:1500px">
+        <div class="row">
+            <div class="col-sm-3 sidebar">
+                <nav class="sidebar-nav">
+                    <div class="sidebar-header">
+                        <button class="nav-toggler nav-toggler-sm sidebar-toggler" type="button" data-toggle="collapse" data-target="#nav-toggleable-sm">
+                            <span class="sr-only">Toggle nav</span>
+                        </button>
+                        <a class="sidebar-brand img-responsive" href="@Url.Action("Index","Home")">
+                            <span class="icon icon-leaf sidebar-brand-icon"></span>
+                        </a>
+                    </div>
+                    <div class="collapse nav-toggleable-sm" id="nav-toggleable-sm">
+                        <form class="sidebar-form">
+                            <input class="form-control" type="text" placeholder="Search...">
+                            <button type="submit" class="btn-link">
+                                <span class="icon icon-magnifying-glass"></span>
+                            </button>
+                        </form>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="nav-header">DASHBOARDS</li>
+                            <li id="Index">
+                                @Html.ActionLink("OCT Portfolio Management", "Index", "Home")
+                            </li>
+                            <li id="AllProjects">
+                                @Html.ActionLink("All Projects", "Index", "AllProjects")
+                            </li>
+                            <li id="ChangeRequests">
+                                @Html.ActionLink("Change Requests", "ChangeRequests", "Home")
+                            </li>
+                            <li id="CashCost">
+                                @Html.ActionLink("Cash Cost", "Index", "CashCost")
+                            </li>
+                            <li id="CycleTime">
+                                @Html.ActionLink("Cycle Time", "Index", "CycleTime")
+                            </li>
+                            <li id="Quality">
+                                @Html.ActionLink("Quality", "Index", "Quality")
+                            </li>
+                            <li id="TTMCYield">
+                                @Html.ActionLink("TTMC Yield", "Index", "TTMCY")
+                            </li>
+                            <li id="AuxIT">
+                                @Html.ActionLink("Aux IT", "ViewListOfBscm", "AuxIT")
+                            </li>
+
+                            <li class="nav-header">MEETING AGENDAS</li>
+                            <li id="PACManagers">
+                                @Html.ActionLink("PAC Managers", "Index", "PacManagers")
+                            </li>
+                            <li id="OPMO">
+                                <a href="http://opmodash/" target="_blank">OPMO</a>
+                                @*@Html.ActionLink("OPMO", "OPMO", "Home")*@
+                            </li>
+                            <li id="Prioritization">
+                                @Html.ActionLink("Prioritization", "ViewListOfIssues", "Prioritization")
+                            </li>
+
+                        </ul>
+                        <hr class="visible-xs m-t">
+                    </div>
+                </nav>
+            </div>
+            <div class="col-sm-9 content">
+                @RenderBody()
+                <hr />
+                <div class="text-sm-right">
+                    <text id="back-to-top" style="cursor:pointer;visibility:hidden">Back to Top</text>
+                </div>
+
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Micron Technology, Inc. </p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+    
+
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <br />
+    <br /><br /><br /><br />
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Dashboard </p>
+        </footer>
+    </div>*@
+
+
+
+
+  
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var title = '@(ViewBag.CurrentView)';
+            $("#" + String(title)).addClass("active");
+
+            $(window).scroll(function () {
+                document.getElementById("back-to-top").style.visibility = "visible";
+                
+            });
+            $("#back-to-top").click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 1000);
+            });
+                
+        });
+    </script>
+</body>
+
+</html>
+
+

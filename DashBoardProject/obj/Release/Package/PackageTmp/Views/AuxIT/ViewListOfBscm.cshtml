@@ -1,0 +1,144 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Aux IT";
+
+}
+
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.Bscm>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">Aux IT</h2>
+    </div>
+</div>
+
+<ul class="nav nav-pills">
+    <li class="active">
+        <a href="@Url.Action("ViewListOfBscm","AuxIT")">
+            <span class="icon icon-folder"></span>
+            BSCM Issues
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("GanttChart","AuxIT")" target="_blank">
+            <span class="icon icon-hour-glass"></span>
+            Gantt Chart
+        </a>
+    </li>
+</ul>
+<hr class="m-t">
+
+
+<div class="table-full">
+    
+        <table class="table table-hover" data-sort="table" style="table-layout:fixed;width:100%;">
+            <thead>
+                <tr>
+                    <th style="width:30px"></th>
+                    <th style="width:104px">BSCM ID</th>
+                    <th style="width:86px">JIRA ID</th>
+                    <th style="width:220px">Description</th>
+                    <th style="width:103px">Department</th>
+                    <th style="width:160px">Current Stage</th>
+                    <th style="width:88px">Creation Date</th>
+                    <th style="width:100px">FSRB</th>
+                    <th style="width:66px">IS Hours Est.</th>
+                    <th style="width:134px">Submitter</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width:30px">
+                            <a href="javascript:void(0);" class="anchorDetail" data-id="@item.JIRA_Key">
+                                <span class="icon icon-info-with-circle"></span>
+                            </a>
+                        </td>
+                        <td style="width:104px">
+                            <a href="http://web.micron.com/METABAMS/ViewRequest.aspx?FolderID=@(item.eFolderID)" target="_blank">
+                                @Html.DisplayFor(m => item.bscmID)
+                            </a>
+                        </td>
+                        <td style="width:86px">
+                            <a href="https://jira.micron.com/jira/browse/@(item.JIRA_Key)" target="_blank">
+                                @Html.DisplayFor(m => item.JIRA_Key)
+                            </a>
+                        </td>
+                        <td style="width:220px">
+                            @Html.DisplayFor(m => item.description)
+                        </td>
+                        <td style="width:103px">
+                            @Html.DisplayFor(m => item.department)
+                        </td>
+                        <td style="width:160px">
+                            @Html.DisplayFor(m => item.currentStage)
+                        </td>
+                        <td style="width:88px">
+                            @Html.DisplayFor(m => item.creationTime)
+                        </td>
+                        <td style="width:100px">
+                            @Html.DisplayFor(m => item.fsrbGroupName)
+                        </td>
+                        <td style="width:66px">
+                            @Html.DisplayFor(m => item.IS_HoursEstimate)
+                        </td>
+                        <td style="width:134px">
+                            @Html.DisplayFor(m => item.submitterUsername)
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width:1000px">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // call the tablesorter plugin
+        $(".table").tablesorter({
+            // Sort on the second column, in ascending order
+            sortList: [[1, 0]]
+        });
+
+        $(".anchorDetail").click(function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: '../AuxIT/Details',
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+    });
+
+
+</script>

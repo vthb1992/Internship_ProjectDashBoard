@@ -1,0 +1,216 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+#sortable_list_header1{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+#sortable_list_header1 li div{
+    background-color:transparent;
+    font-weight:bold;
+    cursor:default;
+    /*border-bottom:1px solid #434857;*/
+    float:left;
+    padding:10px 10px;
+}
+
+#sortable_list1{
+    list-style:none;
+    margin:0;
+    padding:0;
+    min-height:20px;
+}
+
+#sortable_list1 li div{
+    display:block;
+    float:left;
+    background-color:transparent;
+    padding:10px 10px;
+
+}
+
+#sortable_list_header2{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+#sortable_list_header2 li div{
+    background-color:transparent;
+    font-weight:bold;
+    cursor:default;
+    /*border-bottom:1px solid #434857;*/
+    float:left;
+    padding:10px 10px;
+}
+
+#sortable_list2{
+    list-style:none;
+    margin:0;
+    padding:0;
+    min-height:20px;
+}
+
+#sortable_list2 li div{
+    display:block;
+    float:left;
+    background-color:transparent;
+    padding:10px 10px;
+
+}
+
+li div.listitem_rank{
+    width:70px;
+
+}
+
+li div.listitem_ID{
+    width:120px;
+
+}
+
+li div.listitem_rankedProjects{
+    width:260px;
+
+}
+li div.listitem_PAC{
+    width:120px;
+
+}
+
+li div.listitem_pacRank{
+    width:70px;
+
+}
+li div.listitem_ITHR{
+    width:80px;
+
+}
+li div.listitem_benefit{
+    width:330px;
+
+}
+
+li div.handler{
+    cursor:move;
+}
+
+.sortable_list_PAC_header {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.sortable_list_PAC_header li div{
+    background-color:transparent;
+    font-weight:bold;
+    cursor:default;
+    /*border-bottom:1px solid #434857;*/
+    float:left;
+    padding:10px 10px;
+
+}
+#sortable_list_PAC_1{
+    list-style:none;
+    margin:0;
+    padding:0;
+    min-height:20px;
+}
+
+#sortable_list_PAC_1 li div{
+    display:block;
+    float:left;
+    background-color:transparent;
+    padding:10px 10px;
+
+}
+#sortable_list_PAC_2{
+    list-style:none;
+    margin:0;
+    padding:0;
+    min-height:20px;
+}
+
+#sortable_list_PAC_2 li div{
+    display:block;
+    float:left;
+    background-color:transparent;
+    padding:10px 10px;
+
+}
+#sortable_list_PAC_3{
+    list-style:none;
+    margin:0;
+    padding:0;
+    min-height:20px;
+}
+
+#sortable_list_PAC_3 li div{
+    display:block;
+    float:left;
+    background-color:transparent;
+    padding:10px 10px;
+
+}
+#sortable_list_PAC_4{
+    list-style:none;
+    margin:0;
+    padding:0;
+    min-height:20px;
+}
+
+#sortable_list_PAC_4 li div{
+    display:block;
+    float:left;
+    background-color:transparent;
+    padding:10px 10px;
+
+}
+
+li div.listitem_PAC_ID{
+    width:120px;
+
+}
+li div.listitem_PAC_title{
+    width:260px;
+
+}
+li div.listitem_PAC_manager{
+    width:150px;
+
+}
+li div.listitem_PAC_stage{
+    width:120px;
+
+}
+li div.listitem_PAC_metrics{
+    width:120px;
+
+}
+li div.listitem_PAC_status{
+    width:120px;
+
+}

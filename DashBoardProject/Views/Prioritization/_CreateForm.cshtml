@@ -1,0 +1,89 @@
+﻿@model DashBoardProject.Models.IssuesModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.issueList, "Issue List", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.issueList, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.issueList)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> Ordered collection of "Issues".</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.BscmProject, "BSCM/Project", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.DropDownListFor(model => model.BscmProject, (SelectList)ViewBag.BscmProjectGroups, "Select one", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.BscmProject)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> A MS-Project item or BSCM case.</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.issueID, "Issue ID", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.issueID, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.issueID)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> BSCM or Project ID.</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.name, "Issue Name", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextAreaFor(model => model.name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.name)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> BSCM or Project Name.</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.PAC, "PAC", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.PAC, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PAC)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> PAC.</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ITHR, "IT/HR", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.ITHR, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ITHR)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> IT/HR.</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.benefit, "Benefit", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextAreaFor(model => model.benefit, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.benefit)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> Benefit.</span>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.creator, "Creator", new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.creator, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.creator)
+    </div>
+    <div class="col-sm-5">
+        <span class="help-block"><strong>Required.</strong> Creator.</span>
+    </div>
+</div>

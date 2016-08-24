@@ -1,0 +1,84 @@
+﻿@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.Project>
+
+<div class="table-full">
+    <div class="table-responsive">
+        @foreach (var i in ViewBag.statesOfProjects)
+        {
+            if (i != null)
+            {
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a data-toggle="collapse" href="#collapse@(i)">
+                                <div> @i</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse@(i)" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table table-hover" data-sort="table">
+                                <thead>
+                                    <tr>
+                                        <th>Project ID</th>
+                                        <th>Project Title</th>
+                                        <th>Phase</th>
+                                        <th>Key SME</th>
+                                        <th>Project Manager</th>
+                                        <th>Actual % Complete</th>
+                                        <th>Days Behind+ & Ahead-</th>
+                                        <th>Project Start</th>
+                                        <th>Project Finish</th>
+                                        <th>Baseline Finish</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.stateOfProject == i)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.projectID)
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("Info","Projects", new { id = item.projectUID })" target="_blank">
+                                                        @Html.DisplayFor(m => item.projectTitle)
+                                                    </a> 
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.phase)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.keySME)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.projectManager)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.actualPercentageCompleted)%
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.daysBehindAhead)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.projectStartDisplay)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.projectFinishDisplay)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.baselineFinishDisplay)
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

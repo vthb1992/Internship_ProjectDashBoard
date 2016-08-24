@@ -1,0 +1,797 @@
+﻿@{
+    Layout = null;
+    DateTime dateCountStartingPoint1 = ViewBag.currentDateMinus;
+    DateTime dateCountStartingPoint2 = ViewBag.currentDateMinus;
+    int workWeekCount1 = ViewBag.currentDateMinusWW;
+    int workWeekCount2 = ViewBag.currentDateMinusWW;
+
+    bool isFirst = true;
+    int firstWorkWeekDisplayed = 0;
+    int lastWorkWeekDisplayed = 0;
+
+    List<int> allWorkWeeks = new List<int>();
+}
+@using System.Globalization;
+@model List<DashBoardProject.Models.GanttChartItem>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width initial-scale=1.0" />
+    <title>Gantt Chart</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+
+<body>
+    <div class="col-md-2" style="text-align:center;padding:70px 0">
+        <h2>Gantt Chart</h2><br />
+        <h3>(Aux IT)</h3>
+    </div>
+    <div class="col-md-10">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Customization</div>
+            <div class="panel-body">
+                <div class="row" style="padding-bottom:15px">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Number of Hours in a Sprint</span>
+                            <input id="sprintHours" name="sprintHours" class="form-control" type="text" style="width:50px">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Display no. of Sprints before current date</span>
+                            <input id="numOfSprintsBefore" name="numOfSprintsBefore" class="form-control" type="text" style="width:50px">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <b style="color:red">Remember to click save before updating display!</b>
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary-outline p-x" onclick="updateHoursChanges()">
+                        <span class="icon icon-cycle"></span> Update Sprint Hours
+                    </button>
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Display no. of Sprints after current date</span>
+                        <input id="numOfSprintsAfter" name="numOfSprintsAfter" class="form-control" type="text" style="width:50px">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary-outline p-x" onclick="updateNumOfSprintsChanges()">
+                        <span class="icon icon-cycle"></span> Update Display
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Legend</div>
+            <div class="panel-body">
+                <label class="control-label">Planned Period</label>
+                <select id ="plannedPeriod" class="custom-select">
+                    <option value="rgb(0, 255, 255)">Aqua</option>
+                    <option value="rgb(255, 0, 0)">Red</option>
+                    <option value="rgb(255, 165, 0)">Orange</option>
+                    <option value="rgb(255, 255, 0)">Yellow</option>
+                    <option value="rgb(0, 255, 0)">Green</option>
+                    <option value="rgb(0, 128, 255)">Light Blue</option>
+                    <option value="rgb(0, 0, 255)">Dark Blue</option>
+                    <option value="rgb(127, 0, 255)">Purple</option>
+                    <option value="rgb(255, 0, 255)">Pink</option>
+                </select>
+                &nbsp;&nbsp;
+                <label class="control-label">Actual Period</label>
+                <select id="actualPeriod" class="custom-select">
+                    <option value="rgb(0, 0, 255)">Dark Blue</option>
+                    <option value="rgb(255, 0, 0)">Red</option>
+                    <option value="rgb(255, 165, 0)">Orange</option>
+                    <option value="rgb(255, 255, 0)">Yellow</option>
+                    <option value="rgb(0, 255, 0)">Green</option>
+                    <option value="rgb(0, 255, 255)">Aqua</option>
+                    <option value="rgb(0, 128, 255)">Light Blue</option>                   
+                    <option value="rgb(127, 0, 255)">Purple</option>
+                    <option value="rgb(255, 0, 255)">Pink</option>
+                </select>
+                &nbsp;&nbsp;
+                <label class="control-label">After Need Date</label>
+                <select id="afterNeedDatePeriod" class="custom-select">
+                    <option value="rgb(255, 165, 0)">Orange</option>
+                    <option value="rgb(255, 0, 0)">Red</option>
+                    <option value="rgb(255, 255, 0)">Yellow</option>
+                    <option value="rgb(0, 255, 0)">Green</option>
+                    <option value="rgb(0, 255, 255)">Aqua</option>
+                    <option value="rgb(0, 128, 255)">Light Blue</option>
+                    <option value="rgb(0, 0, 255)">Dark Blue</option>
+                    <option value="rgb(127, 0, 255)">Purple</option>
+                    <option value="rgb(255, 0, 255)">Pink</option>
+                </select>
+                &nbsp;&nbsp;
+                <label class="control-label">Ahead Of Time</label>
+                <select id="aheadOfTimePeriod" class="custom-select">
+                    <option value="rgb(0, 255, 0)">Green</option>
+                    <option value="rgb(255, 0, 0)">Red</option>
+                    <option value="rgb(255, 165, 0)">Orange</option>
+                    <option value="rgb(255, 255, 0)">Yellow</option>
+                    <option value="rgb(0, 255, 255)">Aqua</option>
+                    <option value="rgb(0, 128, 255)">Light Blue</option>
+                    <option value="rgb(0, 0, 255)">Dark Blue</option>
+                    <option value="rgb(127, 0, 255)">Purple</option>
+                    <option value="rgb(255, 0, 255)">Pink</option>
+                </select>
+                &nbsp;&nbsp;
+                <label class="control-label">Need Date Line</label>
+                <select id="needDateLine" class="custom-select">
+                    <option value="rgb(255, 0, 0)">Red</option>
+                    <option value="rgb(255, 165, 0)">Orange</option>
+                    <option value="rgb(255, 255, 0)">Yellow</option>
+                    <option value="rgb(0, 255, 0)">Green</option>
+                    <option value="rgb(0, 255, 255)">Aqua</option>
+                    <option value="rgb(0, 128, 255)">Light Blue</option>
+                    <option value="rgb(0, 0, 255)">Dark Blue</option>
+                    <option value="rgb(127, 0, 255)">Purple</option>
+                    <option value="rgb(255, 0, 255)">Pink</option>
+                </select>
+            </div>
+        </div>
+       
+
+    </div><br />
+    
+            @using (Html.BeginForm("GanttChart", "AuxIT", new { numOfSprintsBefore = ViewBag.numberOfSprintsBefore,
+                numOfSprintsAfter = ViewBag.numberOfSprintsAfter }, FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="table-full">
+                    <table class="table-hover" style="table-layout:fixed;border-collapse:collapse;width:100%">
+                        <thead>
+                            <tr>
+                                <th style="width:110px;text-align:center">ID</th>
+                                <th style="width:250px;text-align:center">Name</th>
+                                <th style="width:80px;text-align:center">Overall Ranking</th>
+                                <th style="width:80px;text-align:center">OCLT</th>
+                                <th style="width:80px;text-align:center">PAC</th>
+                                <th style="width:80px;text-align:center">IT/HR</th>
+                                <th style="width:110px;text-align:center">Developer</th>
+                                <th style="width:80px;text-align:center">Planned Start (YYYYWW)</th>
+                                <th style="width:80px;text-align:center">Planned End (YYYYWW)</th>
+                                <th style="width:80px;text-align:center">Actual Start (YYYYWW)</th>
+                                <th style="width:80px;text-align:center">Actual End (YYYYWW)</th>
+                                <th style="width:80px;text-align:center">Need Date (YYYYWW)</th>
+
+                                <th style="width:80px;text-align:center;border:1px solid white">Before</th>
+                                @while (DateTime.Compare(dateCountStartingPoint1, ViewBag.currentDatePlus) != 0)
+                                {
+                                    <th style="width:80px;text-align:center;border:1px solid white">
+                                        <b>@workWeekCount1</b><br />
+                                        @dateCountStartingPoint1.ToShortDateString()
+                                    </th>
+
+                                    var yyyyCurrent = workWeekCount1 / 100;
+                                    var wwCurrent = workWeekCount1 % 100;
+
+                                    if (wwCurrent + 2 > 52)
+                                    {
+                                        yyyyCurrent++;
+                                    }
+                                    wwCurrent = (wwCurrent + 2) % 52;
+                                    if (wwCurrent == 0)
+                                    {
+                                        wwCurrent = 52;
+                                    }
+                                    workWeekCount1 = yyyyCurrent * 100 + wwCurrent;
+
+                                    dateCountStartingPoint1 = dateCountStartingPoint1.AddDays(14);
+                                }
+                                <th style="width:80px;text-align:center;border:1px solid white">After</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.Count(); i++)
+                            {
+                                <tr id="row_@(i)">
+                                    <td style="width:110px;text-align:center">
+                                        @Html.DisplayFor(Model => Model[i].itemID)
+                                        @Html.HiddenFor(Model => Model[i].itemID)
+                                    </td>
+                                    <td style="width:250px;text-align:center">
+                                        @Html.DisplayFor(Model => Model[i].itemName)
+                                        @Html.HiddenFor(Model => Model[i].itemName)
+                                    </td>
+                                    <td class="overallRanking" style="width:80px;text-align:center">
+                                        @Html.DisplayFor(Model => Model[i].overallRank)
+                                        @Html.HiddenFor(Model => Model[i].overallRank)
+                                    </td>
+                                    <td class="rankingStatus" style="width:80px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].rankingStatus, new { style = "color:black;width:32px;text-align:center" })
+                                    </td>
+                                    <td style="width:80px;text-align:center">
+                                        @Html.DisplayFor(Modelm => Model[i].PAC)
+                                        @Html.HiddenFor(Model => Model[i].PAC)
+                                    </td>
+                                    <td id="ITHR_@(i)" style="width:80px;text-align:center">
+                                        @Html.DisplayFor(Model => Model[i].ITHR)
+                                        @Html.HiddenFor(Model => Model[i].ITHR)
+                                    </td>
+                                    <td style="width:110px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].developer, new { style = "color:black;width:70px;text-align:center" })
+                                    </td>
+                                    <td class="plannedStartWorkWeek" style="width:80px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].plannedStartWorkWeek, new { style = "color:black;width:60px;text-align:center" })
+                                    </td>
+                                    <td id="plannedEndWorkWeek_@(i)" style="width:80px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].plannedEndWorkWeek, new { style = "color:black;width:60px;text-align:center" })
+                                    </td>
+                                    <td class="actualStartWorkWeek" style="width:80px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].actualStartWorkWeek, new { style = "color:black;width:60px;text-align:center" })
+                                    </td>
+                                    <td id="actualEndWorkWeek_@(i)" style="width:80px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].actualEndWorkWeek, new { style = "color:black;width:60px;text-align:center" })
+                                    </td>
+                                    <td class="deadlineWorkWeek" style="width:80px;text-align:center">
+                                        @Html.TextBoxFor(Model => Model[i].deadlineWorkWeek, new { style = "color:black;width:60px;text-align:center" })
+                                    </td>
+
+                                    <td id="item_@(i)_before" style="width:80px;text-align:center;border:1px solid white;"></td>
+                                    @while (DateTime.Compare(dateCountStartingPoint2, ViewBag.currentDatePlus) != 0)
+                                    {
+                                        var year_WorkWeek = workWeekCount2;
+                                        if (isFirst)
+                                        {
+                                            firstWorkWeekDisplayed = year_WorkWeek;
+                                            isFirst = false;
+                                        }
+                                        if (i == 0)
+                                        {
+                                            allWorkWeeks.Add(year_WorkWeek);
+                                        }
+
+                                        lastWorkWeekDisplayed = year_WorkWeek;
+
+                                        <td id="item_@(i)_@(year_WorkWeek)" class="ganttChartWorkWeekDetails" style="width:80px;text-align:center;border:1px solid white">
+                                            <input type="text" value="1" style="color:black;width:32px;text-align:center" />
+
+                                        </td>
+
+                                        var yyyyCurrent = workWeekCount2 / 100;
+                                        var wwCurrent = workWeekCount2 % 100;
+
+                                        if (wwCurrent + 2 > 52)
+                                        {
+                                            yyyyCurrent++;
+                                        }
+                                        wwCurrent = (wwCurrent + 2) % 52;
+                                        if (wwCurrent == 0)
+                                        {
+                                            wwCurrent = 52;
+                                        }
+                                        workWeekCount2 = yyyyCurrent * 100 + wwCurrent;
+
+                                        dateCountStartingPoint2 = dateCountStartingPoint2.AddDays(14);
+                                    }
+                                    <td id="item_@(i)_after" style="width:80px;text-align:center;border:1px solid white;"></td>
+                                    @{
+                                        dateCountStartingPoint2 = ViewBag.currentDateMinus;
+                                        workWeekCount2 = ViewBag.currentDateMinusWW;
+                                    }
+                                    <td id="item_@(i)_developerWorkload">
+                                        @Html.HiddenFor(Model => Model[i].developerWorkload)
+                                    </td>
+                                    <td id="item_@(i)_numberOfHoursInSprint">
+                                        @Html.HiddenFor(Model => Model[i].numberOfHoursInSprint)
+                                    </td>
+                                </tr>
+                                        }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-offset-6">
+                    <input type="submit" value="Save" class="btn btn-lg btn-success-outline p-x" />
+                </div>
+                                        }
+            <br />
+  
+            <div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Gantt Chart input details are updated successfully!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cool, got it!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="failureModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Failure</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Validation failed for Gantt Chart input details!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cool, got it!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                var allWorkWeeks = @Html.Raw(Json.Encode(allWorkWeeks));
+
+                //number of hours in a sprint
+                var numberOfHoursInASprint = '@(ViewBag.numberOfHoursInASprint)';
+
+                //no of sprints before/after
+                var numberOfSprintsBefore = '@(ViewBag.numberOfSprintsBefore)';
+                var numberOfSprintsAfter = '@(ViewBag.numberOfSprintsAfter)';
+
+                //default colors for gantt chart
+                var plannedDurationColor = "rgb(0, 255, 255)"; //aqua
+                var actualDurationColor = "rgb(0, 0, 255)"; //blue
+                var afterNeedDateActualColor = "rgb(255, 165, 0)"; //orange
+                var needDateLineColor = "rgb(255, 0, 0)"; //red
+                var afterNeedDatePlannedColor = "rgb(0, 255, 0)"; //green
+
+                $(function () {
+                    if ('@(ViewBag.UpdateGanttChartSuccess)') {
+                        $('#successModal').modal('show');
+                    }
+                    if ('@(ViewBag.UpdateGanttChartValidationFail)') {
+                        $('#failureModal').modal('show');
+                    }
+                    $(".ganttChartWorkWeekDetails input").each(function (i) {
+                        $(this).hide();
+                    });
+                    $("#sprintHours").val(numberOfHoursInASprint);
+                    $("#numOfSprintsBefore").val(numberOfSprintsBefore);
+                    $("#numOfSprintsAfter").val(numberOfSprintsAfter);
+
+                    var modelCount = '@(Model.Count())';
+                    for(var i=0;i<modelCount;i++){
+                        //$("#plannedEndWorkWeek_" + i + " input").prop('disabled',true);
+                        //$("#actualEndWorkWeek_" + i + " input").prop('disabled',true);
+                        $("#item_" + i + "_numberOfHoursInSprint input").val(numberOfHoursInASprint);
+                        updateGanttChartBasedOnExistingValues(i);
+
+                    }
+
+                });
+                $("#plannedPeriod").change(function(){
+                    plannedDurationColor = $("#plannedPeriod").val();
+                    updateColorChanges();
+                });
+                $("#actualPeriod").change(function(){
+                    actualDurationColor = $("#actualPeriod").val();
+                    updateColorChanges();
+                });
+                $("#afterNeedDatePeriod").change(function(){
+                    afterNeedDateActualColor = $("#afterNeedDatePeriod").val();
+                    updateColorChanges();
+                });
+                $("#needDateLine").change(function(){
+                    needDateLineColor = $("#needDateLine").val();
+                    updateColorChanges();
+                });
+                $("#aheadOfTimePeriod").change(function(){
+                    afterNeedDatePlannedColor = $("#aheadOfTimePeriod").val();
+                    updateColorChanges();
+                });
+                function updateColorChanges(){
+                    $(".ganttChartWorkWeekDetails input").each(function (i) {
+                        $(this).hide();
+                    });
+
+                    var modelCount = '@(Model.Count())';
+                    for(var i=0;i<modelCount;i++){
+                        //$("#plannedEndWorkWeek_" + i + " input").prop('disabled',true);
+                        //$("#actualEndWorkWeek_" + i + " input").prop('disabled',true);
+                        $("#item_" + i + "_numberOfHoursInSprint input").val(numberOfHoursInASprint);
+                        updateGanttChartBasedOnExistingValues(i);
+                    }
+                }
+
+                function updateHoursChanges(){
+                    numberOfHoursInASprint = parseInt($("#sprintHours").val());
+
+                    if(isNaN(numberOfHoursInASprint)){
+                        alert("Number of hours in a sprint has to be an integer!");
+                    }else{
+                        $(".ganttChartWorkWeekDetails input").each(function (i) {
+                            $(this).hide();
+                        });
+
+                        var modelCount = '@(Model.Count())';
+                        for(var i=0;i<modelCount;i++){
+                            //$("#plannedEndWorkWeek_" + i + " input").prop('disabled',true);
+                            //$("#actualEndWorkWeek_" + i + " input").prop('disabled',true);
+                            $("#item_" + i + "_numberOfHoursInSprint input").val(numberOfHoursInASprint);
+                            updateGanttChartBasedOnExistingValues(i);
+                        }
+                    }
+                }
+
+                function updateNumOfSprintsChanges(){
+                    numberOfSprintsBefore = parseInt($("#numOfSprintsBefore").val());
+                    numberOfSprintsAfter = parseInt($("#numOfSprintsAfter").val());
+                    if(isNaN(numberOfSprintsBefore)||isNaN(numberOfSprintsAfter)){
+                        alert("Number of sprints has to be an integer!");
+                    }else{
+                        if(confirm("Have you save changes to the Gantt Chart?")){
+                            window.location.href = "/AuxIT/GanttChart?numOfSprintsBefore=" + numberOfSprintsBefore +
+                            "&numOfSprintsAfter=" + numberOfSprintsAfter;
+                        }else{
+                            return false;
+                        }
+                        
+                    }
+                }
+
+
+                function updateGanttChartBasedOnExistingValues(rowID){
+                    clearGanttChart_Row(rowID);
+                    clearGanttChartDeadline_Row_(rowID);
+
+                    ithr = parseInt($("#ITHR_" + rowID).text());
+
+                    devWL = $("#item_" + rowID + "_developerWorkload input").val();
+
+
+
+                    //update plannedStartWorkWeek
+                    plannedStartWorkWeek = parseInt($('#row_' + rowID + ' .plannedStartWorkWeek input').val());
+                    if(!isNaN(plannedStartWorkWeek)){
+                        completeGanttChart_Row_Planned(rowID,plannedStartWorkWeek,ithr);
+                    }else{
+                        $("#plannedEndWorkWeek_" + rowID + " input").val("");
+                    }
+
+                    //update actualStartWorkWeek
+                    actualStartWorkWeek = parseInt($('#row_' + rowID + ' .actualStartWorkWeek input').val());
+                    if(!isNaN(actualStartWorkWeek)){
+                        completeGanttChart_Row_Actual(rowID,actualStartWorkWeek,ithr,devWL);
+                    }else{
+                        $("#actualEndWorkWeek_" + rowID + " input").val("");
+                        $("#row_" + rowID + " .ganttChartWorkWeekDetails input").each(function (i) {
+                            $(this).hide();
+                        });
+                    }
+
+                    //update deadlineWorkWeek
+                    deadlineWorkWeek = parseInt($('#row_' + rowID + ' .deadlineWorkWeek input').val());
+                    if(!isNaN(deadlineWorkWeek)){
+                        updateGanttChart_Row_Deadline(rowID,deadlineWorkWeek);
+                    }
+                }
+
+                function clearGanttChart_Row(rowID) {
+                    $("#item_" + rowID + "_before").css("background-color", "transparent");
+                    for(var i = 0; i < allWorkWeeks.length;i++){
+                        $("#item_" + rowID + "_" + allWorkWeeks[i]).css("background-color", "transparent");
+                    }
+                    $("#item_" + rowID + "_after").css("background-color", "transparent");
+                }
+
+                function clearGanttChartDeadline_Row_(rowID) {
+                    $("#item_" + rowID + "_before").css("border-right", "1px solid white");
+                    for(var i = 0; i < allWorkWeeks.length;i++){
+                        $("#item_" + rowID + "_" + allWorkWeeks[i]).css("border-right", "1px solid white");
+                    }
+                    $("#item_" + rowID + "_after").css("border-right", "1px solid white");
+                }
+
+                //-----------------------Planned Start/End WorkWeek--------------------------------------------------------
+                function completeGanttChart_Row_Planned(rowID,ww,ithr){
+                    var hoursPerSprint = numberOfHoursInASprint;
+
+                    var numOfSprints = Math.ceil(ithr/hoursPerSprint);
+                    var tempWW = ww;
+
+                    while(numOfSprints > 0){
+                        if(tempWW < '@(firstWorkWeekDisplayed)'){
+                            $("#item_" + rowID + "_before").css("background-color", plannedDurationColor);
+                        } else if(tempWW > '@(lastWorkWeekDisplayed)'){
+                            $("#item_" + rowID + "_after").css("background-color", plannedDurationColor);
+                        } else{
+                            $("#item_" + rowID + "_" + tempWW).css("background-color", plannedDurationColor);
+                        }
+
+                        var yyyyCurrent = parseInt(tempWW / 100);
+                        var wwCurrent = tempWW % 100;
+
+                        if (wwCurrent + 2 > 52)
+                        {
+                            yyyyCurrent++;
+                        }
+                        wwCurrent = (wwCurrent + 2) % 52;
+                        if (wwCurrent == 0)
+                        {
+                            wwCurrent = 52;
+                        }
+                        tempWW = yyyyCurrent * 100 + wwCurrent;
+
+                        numOfSprints--;
+                    }
+                    $("#plannedEndWorkWeek_" + rowID + " input").val(tempWW);
+                }
+
+                $('tr .plannedStartWorkWeek input').bind("keypress", function (event) {
+                    if (event.keyCode == '13') {
+                        event.preventDefault();
+
+                        tr = $(this).parent().parent();
+                        rowID = tr.attr('id');
+                        resID = rowID.split('_')[1];
+
+                        if($(this).val() == ""){
+                            updateGanttChartBasedOnExistingValues(resID);
+                        }else{
+                            ww = parseInt($(this).val());
+                            wwYear = parseInt(ww/100);
+                            wwWorkWeek = ww % 100;
+
+                            ithr = parseInt($("#ITHR_" + resID).text());
+
+                            if(isNaN(ww) || wwYear < 2000|| wwYear > 2099){ //valid from 2000 to 2099
+                                tr.effect('highlight');
+                                $(this).val("");
+                            }else{
+                                if(wwWorkWeek % 2 == 0 && wwWorkWeek > 0 && wwWorkWeek < 53){
+                                    updateGanttChartBasedOnExistingValues(resID)
+                                    //completeGanttChart_Row_Planned(resID,ww,ithr);
+                                }
+                                else{
+                                    tr.effect('highlight');
+                                    $(this).val("");
+                                }
+                            }
+                        }
+                    }
+
+                });
+                
+                //--------------------------------------------------------------------------------------------------------
+
+                //-----------------------Actual Start/End WorkWeek--------------------------------------------------------
+                function completeGanttChart_Row_Actual(rowID,ww,ithr,devWL){
+                    $("#row_" + rowID + " .ganttChartWorkWeekDetails input").each(function (i) {
+                        $(this).hide();
+                    });
+
+                    var hoursPerSprint = numberOfHoursInASprint;
+                    var tempWW = ww;
+                    var numOfSprints = 0;
+                    var listOfTextBoxValues;
+
+                    console.log(devWL);
+                    if(devWL == ""){
+                        numOfSprints = Math.ceil(ithr/hoursPerSprint);
+                    }else{
+                        var tempithr = ithr;
+                        listOfTextBoxValues = devWL.split(',');
+                        for(var i = 0;i<listOfTextBoxValues.length;i++){
+                            tempithr = tempithr - listOfTextBoxValues[i] * hoursPerSprint;
+                            numOfSprints++;
+                            if(tempithr <= 0){
+                                break;
+                            }
+                        }
+                        if(tempithr > 0){
+                            numOfSprints = numOfSprints + Math.ceil(tempithr/hoursPerSprint);
+                        }
+                    }
+
+                    var z = 0;
+                    while(numOfSprints > 0){
+                        if(tempWW < '@(firstWorkWeekDisplayed)'){
+                            $("#item_" + rowID + "_before").css("background-color", actualDurationColor);
+                        } else if(tempWW > '@(lastWorkWeekDisplayed)'){
+                            $("#item_" + rowID + "_after").css("background-color", actualDurationColor);
+                        } else{
+                            $("#item_" + rowID + "_" + tempWW).css("background-color", actualDurationColor);
+                            $("#item_" + rowID + "_" + tempWW + " input").show();
+                            if(devWL != ""){
+                                if(z < listOfTextBoxValues.length){
+                                    $("#item_" + rowID + "_" + tempWW + " input").val(listOfTextBoxValues[z]);
+                                }else{
+                                    $("#item_" + rowID + "_" + tempWW + " input").val("1");
+                                }
+                            }
+
+                        }
+
+                        var yyyyCurrent = parseInt(tempWW / 100);
+                        var wwCurrent = tempWW % 100;
+
+                        if (wwCurrent + 2 > 52)
+                        {
+                            yyyyCurrent++;
+                        }
+                        wwCurrent = (wwCurrent + 2) % 52;
+                        if (wwCurrent == 0)
+                        {
+                            wwCurrent = 52;
+                        }
+                        tempWW = yyyyCurrent * 100 + wwCurrent;
+
+                        numOfSprints--;
+                        z++;
+                    }
+                    $("#actualEndWorkWeek_" + rowID + " input").val(tempWW);
+
+                    devWorkload = "";
+                    $("#row_" + rowID + " .ganttChartWorkWeekDetails input:visible").each(function (){
+                        devWorkload = devWorkload + $(this).val() + ",";
+                    });
+                    devWorkload = devWorkload.substring(0,devWorkload.length - 1);
+
+                    $("#item_" + rowID + "_developerWorkload input").val(devWorkload);
+                }
+
+                $('tr .actualStartWorkWeek input').bind("keypress", function (event) {
+                    if (event.keyCode == '13') {
+                        event.preventDefault();
+
+                        tr = $(this).parent().parent();
+                        rowID = tr.attr('id');
+                        resID = rowID.split('_')[1];
+
+                        if($(this).val() == ""){
+                            updateGanttChartBasedOnExistingValues(resID);
+                        }else{
+                            ww = parseInt($(this).val());
+                            wwYear = parseInt(ww/100);
+                            wwWorkWeek = ww % 100;
+
+                            ithr = parseInt($("#ITHR_" + resID).text());
+
+                            if(isNaN(ww) || wwYear < 2000|| wwYear > 2099){ //valid from 2000 to 2099
+                                tr.effect('highlight');
+                                $(this).val("");
+                            }else{
+                                if(wwWorkWeek % 2 == 0 && wwWorkWeek > 0 && wwWorkWeek < 53){
+                                    updateGanttChartBasedOnExistingValues(resID);
+                                    //completeGanttChart_Row_Actual(resID,ww,ithr);
+                                }
+                                else{
+                                    tr.effect('highlight');
+                                    $(this).val("");
+                                }
+                            }
+                        }
+                    }
+                });
+                //--------------------------------------------------------------------------------------------------------
+
+                //----------------------------------Deadline WorkWeek-----------------------------------------------------
+                function updateGanttChart_Row_Deadline(rowID,ww){
+                    //Marking of deadline
+                    if(ww < '@(firstWorkWeekDisplayed)'){
+                        $("#item_" + rowID + "_before").css("border-right", "5px solid " + needDateLineColor);
+                    } else if(ww > '@(lastWorkWeekDisplayed)'){
+                        $("#item_" + rowID + "_after").css("border-right", "5px solid " + needDateLineColor);
+                    } else{
+                        $("#item_" + rowID + "_" + ww).css("border-right", "5px solid " + needDateLineColor);
+                    }
+
+                    var actualEndWorkweek = $("#actualEndWorkWeek_" + rowID  + " input").val();
+
+                    for(var i = 0; i < allWorkWeeks.length;i++){
+                        if(allWorkWeeks[i] > ww){
+                            var color = $("#item_" + rowID + "_" + allWorkWeeks[i]).css("background-color");
+                            if(color == actualDurationColor){
+                                $("#item_" + rowID + "_" + allWorkWeeks[i]).css("background-color", afterNeedDateActualColor);
+                            }else if(color == plannedDurationColor){
+                                if(allWorkWeeks[i] >= actualEndWorkweek && actualEndWorkweek != ""){
+                                    $("#item_" + rowID + "_" + allWorkWeeks[i]).css("background-color", afterNeedDatePlannedColor);
+                                }else{
+                                    $("#item_" + rowID + "_" + allWorkWeeks[i]).css("background-color", afterNeedDateActualColor);
+                                }
+
+                            }
+                        }
+                    }
+                    if(ww <= '@(lastWorkWeekDisplayed)'){
+                        var colorAfter = $("#item_" + rowID + "_after").css("background-color");
+                        if(colorAfter == actualDurationColor){
+                            $("#item_" + rowID + "_after").css("background-color", afterNeedDateActualColor);
+                        }else if(colorAfter == plannedDurationColor){
+
+                            $("#item_" + rowID + "_after").css("background-color", afterNeedDatePlannedColor);
+                        }
+                    }
+
+                }
+
+
+
+                $('tr .deadlineWorkWeek input').bind("keypress", function (event) {
+                    if (event.keyCode == '13') {
+                        event.preventDefault();
+
+                        tr = $(this).parent().parent();
+                        rowID = tr.attr('id');
+                        resID = rowID.split('_')[1];
+
+                        if($(this).val() == ""){
+                            updateGanttChartBasedOnExistingValues(resID);
+                        }else{
+                            ww = parseInt($(this).val());
+                            wwYear = parseInt(ww/100);
+                            wwWorkWeek = ww % 100;
+
+                            if(isNaN(ww) || wwYear < 2000|| wwYear > 2099){ //valid from 2000 to 2099
+                                tr.effect('highlight');
+                                $(this).val("");
+                            }else{
+                                if(wwWorkWeek % 2 == 0 && wwWorkWeek > 0 && wwWorkWeek < 53){
+                                    //clearGanttChartDeadline_Row_(resID);
+                                    //updateGanttChart_Row_Deadline(resID,ww);
+                                    updateGanttChartBasedOnExistingValues(resID)
+                                }
+                                else{
+                                    tr.effect('highlight');
+                                    $(this).val("");
+                                }
+                            }
+                        }
+
+
+                    }
+
+                });
+                //------------------------------------Gantt Chart Textboxes Workload Proportion-------------------------------------------------
+
+                $('.ganttChartWorkWeekDetails input').bind("keypress", function (event) {
+                    if (event.keyCode == '13') {
+                        event.preventDefault();
+
+                        value = parseFloat($(this).val());
+
+                        tr = $(this).parent().parent();
+
+                        rowID = tr.attr('id');
+                        resID = rowID.split('_')[1];
+
+                        devWorkload = "";
+                        $("#row_" + resID + " .ganttChartWorkWeekDetails input:visible").each(function (){
+                            devWorkload = devWorkload + $(this).val() + ",";
+                        });
+                        devWorkload = devWorkload.substring(0,devWorkload.length - 1);
+
+                        $("#item_" + resID + "_developerWorkload input").val(devWorkload);
+
+                        updateGanttChartBasedOnExistingValues(resID);
+
+                    }
+
+                });
+
+            </script>
+
+</body>
+
+</html>

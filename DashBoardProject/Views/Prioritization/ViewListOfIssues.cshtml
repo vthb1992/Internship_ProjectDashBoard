@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Prioritization";
+
+}
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.PrioritizeProjectOverall>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Meeting Agendas</h6>
+        <h2 class="dashhead-title">Prioritization</h2>
+    </div>
+    @*<div class="btn-toolbar dashhead-toolbar">
+
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                <div class="btn-toolbar-item input-with-icon">
+                    <input id="currentDateSelected" name="currentDateSelected" type="text" value=@(ViewBag.CurrentDate) class="form-control" data-provide="datepicker" />
+                    <span class="icon icon-calendar"></span>
+                    <input style="visibility:hidden" id="submitDate" type="submit" value="Submit" />
+
+                </div>
+            }
+        </div>*@
+</div>
+
+<ul class="nav nav-pills">
+    @*<li>
+        <a href="@Url.Action("Create","Prioritization")">
+            <span class="icon icon-add-to-list"></span>
+            Create Issues
+        </a>
+    </li>*@
+    <li class="active">
+        <a href="@Url.Action("ViewListOfIssues","Prioritization")">
+            <span class="icon icon-folder"></span>
+            All Issues
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("Prioritize","Prioritization")">
+            <span class="icon icon-shuffle"></span>
+            Prioritize Issues
+        </a>
+    </li>
+</ul>
+
+<hr class="m-t">
+
+<div class="table-full">
+    <div class="table-responsive">
+        <table class="table table-hover" data-sort="table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>ID</th>
+                    <th>BSCM/Project Name</th>
+                    <th>PAC</th>
+                    <th>PAC Rank</th>
+                    <th>IT/HR</th>
+                    <th>Benefit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.overallRank != 0)
+                            {
+                               @Html.DisplayFor(m => item.overallRank)
+                            }
+                            else
+                            {
+                                <div style="display:none;">@Int16.MaxValue</div>
+                            }
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.projectID)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Info","Projects", new { id = item.projectUID })" target="_blank">
+                                @Html.DisplayFor(m => item.projectTitle)
+                            </a> 
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.PAC)
+                        </td>
+                        <td>
+                            @if (item.pacRank != 0)
+                            {
+                                @Html.DisplayFor(m => item.pacRank)
+                            }
+                            else
+                            {
+                                <div style="display:none;">@Int16.MaxValue</div>
+                            }
+                           
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.ITHR)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.benefit)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // call the tablesorter plugin
+        $(".table").tablesorter({
+            // Sort on the second column, in ascending order
+            sortList: [[0, 0]]
+        });
+    });
+
+
+</script>

@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "PAC Managers";
+    var count = 0;
+    var panelColor = "";
+}
+
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.PACManagersProject>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">PAC Managers</h2>
+    </div>
+</div>
+
+<ul class="nav nav-pills">
+    <li>
+        <a href="@Url.Action("Index","PacManagers")">
+            <span class="icon icon-folder"></span>
+            All Projects
+        </a>
+    </li>
+    <li class="active">
+        <a href="@Url.Action("Categorise","PacManagers")">
+            <span class="icon icon-shuffle"></span>
+            Categorise Projects
+        </a>
+    </li>
+
+</ul>
+
+<hr class="m-t">
+@using (Html.BeginForm("Categorise", "PacManagers", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Save" class="btn btn-lg btn-success-outline p-x" />
+        </div>
+    </div>
+    foreach (var i in ViewBag.PACStatuses)
+    {
+        count++; // count 1-4
+
+        if (i == "Help Needed")
+        {
+            panelColor = "danger";
+        }
+        else if (i == "At Risk")
+        {
+            panelColor = "warning";
+        }
+        else if (i == "On Track")
+        {
+            panelColor = "success";
+        }
+        else
+        {
+            panelColor = "info";
+        }
+
+        <div class="panel panel-@(panelColor)">
+            <div class="panel-heading">@i</div>
+            <div class="panel-body">
+                <ul class="sortable_list_PAC_header">
+                    <li class="clearfix">
+                        <div class="listitem_PAC_ID"> ID</div>
+                        <div class="listitem_PAC_title"> Title</div>
+                        <div class="listitem_PAC_manager"> Manager</div>
+                        <div class="listitem_PAC_stage"> Stage</div>
+                        <div class="listitem_PAC_metrics"> Metrics</div>
+                        <div class="listitem_PAC_status"> Status</div>
+              
+                    </li>
+                </ul>
+                <hr class="m-t-0 m-b-0">
+                <ul id="sortable_list_PAC_@(count)" class="connectedSortable">
+                    @for (var j = 0; j < Model.Count(); j++)
+                    {
+                        if (Model[j].PACStatus == i)
+                        {
+                        
+                            <li class="clearfix">
+                                <div class="listitem_PAC_ID handler">@Html.DisplayFor(Model => Model[j].projectID)@Html.HiddenFor(Model => Model[j].projectID) </div>
+                                <div class="listitem_PAC_title handler"> @Html.DisplayFor(Model => Model[j].projectName)@Html.HiddenFor(Model => Model[j].projectName)</div>
+                                <div class="listitem_PAC_manager handler"> @Html.DisplayFor(Model => Model[j].projectManager)@Html.HiddenFor(Model => Model[j].projectManager)</div>
+                                <div class="listitem_PAC_stage handler"> 
+                                    @if (Model[j].stateOfProject == "Active")
+                                    {
+                                        @Html.DisplayFor(Model => Model[j].phase) 
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(Model => Model[j].stateOfProject) 
+                                    }
+                                    @Html.HiddenFor(Model => Model[j].phase) @Html.HiddenFor(Model => Model[j].stateOfProject)
+                                </div>
+                                <div class="listitem_PAC_metrics handler">BLANK
+                                @*@Html.DisplayFor(Model => Model[j].metrics)@Html.HiddenFor(Model => Model[j].metrics)*@
+                                </div>
+                                <div class="listitem_PAC_status">
+                                    @if (Model[j].scheduleStatus == "Red")
+                                    {
+                                        panelColor = "danger";
+                                    }
+                                    else if (@Model[j].scheduleStatus == "Yellow")
+                                    {
+                                        panelColor = "warning";
+                                    }
+                                    else if (@Model[j].scheduleStatus == "Green")
+                                    {
+                                        panelColor = "success";
+                                    }
+                                    else
+                                    {
+                                        panelColor = "info";
+                                    }
+                                    <button class="btn btn-xs btn-@(panelColor)-outline" type="button">@Model[j].scheduleStatusDetails</button>
+                                    @Html.HiddenFor(Model => Model[j].scheduleStatus) @Html.HiddenFor(Model => Model[j].scheduleStatusDetails)
+                                </div>
+                                <div class="listitem_PAC_pacStatus">
+                                    @Html.HiddenFor(Model => Model[j].PACStatus)
+                                    </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}
+
+<div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">PAC Managers Categorization</h4>
+            </div>
+            <div class="modal-body">
+                <p>Status of projects are updated successfully!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cool, got it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        if ('@(ViewBag.UpdateCategoriesSuccess)') {
+            $('#successModal').modal('show');
+        }
+
+        $("#sortable_list_PAC_1, #sortable_list_PAC_2, #sortable_list_PAC_3, #sortable_list_PAC_4").sortable(
+            {
+                handle: ".handler",
+                connectWith: ".connectedSortable",
+                stop: function (event, ui) { updateIndexes() }
+            });
+
+    });
+
+    function updateIndexes() {
+        $("#sortable_list_PAC_1 li .listitem_PAC_pacStatus input").each(function (i) {
+            $(this).val("Help Needed");
+        });
+
+        $("#sortable_list_PAC_2 li .listitem_PAC_pacStatus input").each(function (i) {
+            $(this).val("At Risk");
+        });
+
+        $("#sortable_list_PAC_3 li .listitem_PAC_pacStatus input").each(function (i) {
+            $(this).val("On Track");
+        });
+
+        $("#sortable_list_PAC_4 li .listitem_PAC_pacStatus input").each(function (i) {
+            $(this).val("Not Categorised");
+        });
+     
+    }
+
+</script>

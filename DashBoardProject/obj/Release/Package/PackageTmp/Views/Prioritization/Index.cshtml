@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Prioritization";
+
+}
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Meeting Agendas</h6>
+        <h2 class="dashhead-title">Prioritization</h2>
+    </div>
+    @*<div class="btn-toolbar dashhead-toolbar">
+
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <div class="btn-toolbar-item input-with-icon">
+                <input id="currentDateSelected" name="currentDateSelected" type="text" value=@(ViewBag.CurrentDate) class="form-control" data-provide="datepicker" />
+                <span class="icon icon-calendar"></span>
+                <input style="visibility:hidden" id="submitDate" type="submit" value="Submit" />
+
+            </div>
+        }
+    </div>*@
+</div>
+
+<ul class="nav nav-pills">
+    @*<li>
+        <a id="num1" href="@Url.Action("Create","Prioritization")" >
+            <span class="icon icon-add-to-list"></span>
+            Create Issues
+        </a>
+    </li>*@
+    <li>
+        <a id="num2" href="@Url.Action("ViewListOfIssues","Prioritization")">
+            <span class="icon icon-folder"></span>
+            All Issues
+        </a>
+    </li>
+    <li>
+        <a id ="num3" href="@Url.Action("Prioritize","Prioritization")">
+            <span class="icon icon-shuffle"></span>
+            Prioritize Issues
+        </a>
+    </li>
+</ul>
+
+<hr class="m-t">

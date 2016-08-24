@@ -1,0 +1,234 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Prioritization";
+
+}
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.PrioritizeProjectOverall>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Meeting Agendas</h6>
+        <h2 class="dashhead-title">Prioritization</h2>
+    </div>
+    @*<div class="btn-toolbar dashhead-toolbar">
+
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                <div class="btn-toolbar-item input-with-icon">
+                    <input id="currentDateSelected" name="currentDateSelected" type="text" value=@(ViewBag.CurrentDate) class="form-control" data-provide="datepicker" />
+                    <span class="icon icon-calendar"></span>
+                    <input style="visibility:hidden" id="submitDate" type="submit" value="Submit" />
+
+                </div>
+            }
+        </div>*@
+</div>
+
+<ul class="nav nav-pills">
+    @*<li>
+        <a href="@Url.Action("Create","Prioritization")">
+            <span class="icon icon-add-to-list"></span>
+            Create Issues
+        </a>
+    </li>*@
+    <li>
+        <a href="@Url.Action("ViewListOfIssues","Prioritization")">
+            <span class="icon icon-folder"></span>
+            All Issues
+        </a>
+    </li>
+    <li class="active">
+        <a href="@Url.Action("Prioritize","Prioritization")">
+            <span class="icon icon-shuffle"></span>
+            Prioritize Issues
+        </a>
+    </li>
+</ul>
+
+<hr class="m-t">
+
+@using (Html.BeginForm("Prioritize", "Prioritization", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Save" class="btn btn-lg btn-success-outline p-x" />
+        </div>
+    </div>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">Prioritized</div>
+            <div class="panel-body">
+                <ul id="sortable_list_header1">
+                    <li class="clearfix">
+                        <div class="listitem_rank"> Rank</div>
+                        <div class="listitem_ID"> ID</div>
+                        <div class="listitem_rankedProjects"> BSCM/Project Name</div>
+                        <div class="listitem_PAC"> PAC</div>
+                        <div class="listitem_pacRank"> PAC Rank</div>
+                        <div class="listitem_ITHR"> IT/HR</div>
+                        <div class="listitem_benefit"> Benefit</div>
+                    </li>
+                </ul>
+                <hr class="m-t-0 m-b-0">
+                <ul id="sortable_list1" class="connectedSortable">
+                        @for (var i = 0;i < Model.Count();i++)
+                        {
+                            if (@Model[i].overallRank != 0)
+                            {
+                                <li class="clearfix">
+                                    <div class="listitem_rank">
+                                        @*<input type="text" value=@Model[i].overallRank style="color:black;width:32px;text-align:center" />*@
+                                        @Html.TextBoxFor(model => Model[i].overallRank, new { style = "color:black;width:32px;text-align:center" })
+                                    </div>
+                                    <div class="listitem_ID handler"> @Html.DisplayFor(Model => Model[i].projectID)@Html.HiddenFor(Model => Model[i].projectID)</div>
+                                    <div class="listitem_rankedProjects handler"> @Html.DisplayFor(Model => Model[i].projectTitle)@Html.HiddenFor(Model => Model[i].projectTitle)</div>
+                                    <div class="listitem_PAC handler"> @Html.DisplayFor(Model => Model[i].PAC) @Html.HiddenFor(Model => Model[i].PAC)</div>
+                                    <div class="listitem_pacRank handler">@Html.DisplayFor(Model => Model[i].pacRank)@Html.HiddenFor(Model => Model[i].pacRank)</div>
+                                    <div class="listitem_ITHR handler"> @Html.DisplayFor(Model => Model[i].ITHR)@Html.HiddenFor(Model => Model[i].ITHR)</div>
+                                    <div class="listitem_benefit handler"> @Html.DisplayFor(Model => Model[i].benefit)@Html.HiddenFor(Model => Model[i].benefit)</div>
+                                </li>
+                            }
+                        }
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">Not Prioritized Yet</div>
+            <div class="panel-body">
+                <ul id="sortable_list_header2">
+                    <li class="clearfix">
+                        <div class="listitem_rank"> Rank</div>
+                        <div class="listitem_ID"> ID</div>
+                        <div class="listitem_rankedProjects"> BSCM/Project Name</div>
+                        <div class="listitem_PAC"> PAC</div>
+                        <div class="listitem_pacRank"> PAC Rank</div>
+                        <div class="listitem_ITHR"> IT/HR</div>
+                        <div class="listitem_benefit"> Benefit</div>
+                    </li>
+                </ul>
+                <hr class="m-t-0 m-b-0">
+                <ul id="sortable_list2" class="connectedSortable">
+                    @for (var j = 0; j < Model.Count(); j++)
+                    {
+                        if (@Model[j].overallRank == 0)
+                        { 
+                            <li class="clearfix">
+                                <div class="listitem_rank">
+                                    @*<input type="text" value=@Model[j].overallRank style="color:black;width:32px;text-align:center;"/>*@
+                                    @Html.TextBoxFor(model => Model[j].overallRank, new { style = "color:black;width:32px;text-align:center" })
+                                </div>
+                                <div class="listitem_ID handler"> @Html.DisplayFor(Model => Model[j].projectID)@Html.HiddenFor(Model => Model[j].projectID)</div>
+                                <div class="listitem_rankedProjects handler"> @Html.DisplayFor(Model => Model[j].projectTitle)@Html.HiddenFor(Model => Model[j].projectTitle)</div>
+                                <div class="listitem_PAC handler"> @Html.DisplayFor(Model => Model[j].PAC) @Html.HiddenFor(Model => Model[j].PAC)</div>
+                                <div class="listitem_pacRank handler">@Html.DisplayFor(Model => Model[j].pacRank)@Html.HiddenFor(Model => Model[j].pacRank)</div>
+                                <div class="listitem_ITHR handler"> @Html.DisplayFor(Model => Model[j].ITHR)@Html.HiddenFor(Model => Model[j].ITHR)</div>
+                                <div class="listitem_benefit handler"> @Html.DisplayFor(Model => Model[j].benefit)@Html.HiddenFor(Model => Model[j].benefit)</div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+}
+
+<div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Overall Prioritization</h4>
+            </div>
+            <div class="modal-body">
+                <p>Ranking of projects are updated successfully!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cool, got it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    itemsCount = $('#sortable_list1 li').length;
+
+    $(function () {
+        if ('@(ViewBag.UpdatePrioritiesSuccess)') {
+            $('#successModal').modal('show');
+        }
+        //updateIndexes();
+        $("#sortable_list1, #sortable_list2").sortable(
+            {
+                handle: ".handler",
+                connectWith: ".connectedSortable",
+                stop: function (event, ui) { updateIndexes() }
+            });
+
+    });
+
+    function updateIndexes() {
+        $("#sortable_list1 li .listitem_rank input").each(function (i) {
+            $(this).val(i + 1);   
+        });
+        $("#sortable_list2 li .listitem_rank input").each(function (i) {
+            $(this).val(0);      
+        });
+
+        $("#sortable_list1 li .listitem_rank input").each(function () {
+            this.disabled = false;
+        });
+        $("#sortable_list2 li .listitem_rank input").each(function () {
+            this.disabled = true;
+        });
+        itemsCount = $('#sortable_list1 li').length;
+  
+    }
+
+    $('li .listitem_rank input').bind("keypress", function (event) {
+        
+        if (event.keyCode == '13') {
+            event.preventDefault();
+
+            order = parseInt($(this).val());
+
+            li = $(this).parent().parent();
+            
+            console.log(li);
+            if (order >= 0 && order <= itemsCount) {
+
+                li.effect('drop', function () {
+                    li.detach();
+                    if (order == 0){
+                              
+                        $("#sortable_list2").append(li);
+                    } 
+                                
+                    else if (order == itemsCount) {
+                           
+                        $("#sortable_list1").append(li);
+                               
+                    }
+                    else {
+                              
+                        li.insertBefore($('#sortable_list1 li:eq(' + (order - 1) + ')'));
+                                
+                    }
+                    updateIndexes();
+                    li.effect('slide');
+                });
+            } else {
+                li.effect('highlight');
+            }
+            return false;
+        } 
+    });
+
+</script>

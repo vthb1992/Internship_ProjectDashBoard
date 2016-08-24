@@ -1,0 +1,171 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Cash Cost";
+
+}
+
+@using DashBoardProject.Models;
+@model List<DashBoardProject.Models.PrioritizeProjectPAC>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">Cash Cost Reduction</h2>
+    </div>
+</div>
+
+<ul class="nav nav-pills">
+    <li>
+        <a href="@Url.Action("Index","CashCost")">
+            <span class="icon icon-folder"></span>
+            All Projects
+        </a>
+    </li>
+    <li class="active">
+        <a href="@Url.Action("Prioritize","CashCost")">
+            <span class="icon icon-shuffle"></span>
+            Prioritize Projects
+        </a>
+    </li>
+</ul>
+<hr class="m-t">
+
+
+@using (Html.BeginForm("Prioritize", "CashCost", FormMethod.Post, new { @class = "form-horizontal", onSubmit = "return checkForm();" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_PrioritizeView", Model);
+}
+
+<div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Cash Cost - Prioritization</h4>
+            </div>
+            <div class="modal-body">
+                <p>Ranking of projects are updated successfully!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cool, got it!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    itemsCount = $('#sortable_list1 li').length;
+
+    $(function () {
+        if ('@(ViewBag.UpdatePrioritiesSuccess)') {
+            $('#successModal').modal('show');
+        }
+        //updateIndexes();
+        $("#sortable_list1, #sortable_list2").sortable(
+            {
+                handle: ".handler",
+                connectWith: ".connectedSortable",
+                stop: function (event, ui) { updateIndexes() }
+            });
+
+    });
+
+    function updateIndexes() {
+        $("#sortable_list1 li .listitem_rank input").each(function (i) {
+            $(this).val(i + 1);
+        });
+        $("#sortable_list2 li .listitem_rank input").each(function (i) {
+            $(this).val(0);
+        });
+
+        $("#sortable_list1 li .listitem_rank input").each(function () {
+            this.disabled = false;
+        });
+        $("#sortable_list2 li .listitem_rank input").each(function () {
+            this.disabled = true;
+        });
+        itemsCount = $('#sortable_list1 li').length;
+
+    }
+
+    $('li .listitem_rank input').bind("keypress", function (event) {
+
+        if (event.keyCode == '13') {
+            event.preventDefault();
+
+            order = parseInt($(this).val());
+
+            li = $(this).parent().parent();
+            console.log(li);
+            if (order >= 0 && order <= itemsCount) {
+
+                li.effect('drop', function () {
+                    li.detach();
+                    if (order == 0){
+
+                        $("#sortable_list2").append(li);
+                    }
+
+                    else if (order == itemsCount) {
+
+                        $("#sortable_list1").append(li);
+
+                    }
+                    else {
+
+                        li.insertBefore($('#sortable_list1 li:eq(' + (order - 1) + ')'));
+
+                    }
+                    updateIndexes();
+                    li.effect('slide');
+                });
+            } else {
+                li.effect('highlight');
+            }
+            return false;
+        }
+    });
+
+    function checkForm() {
+        var isValidITHR = true;
+        var isFilledITHR = true;
+
+        $('li .listitem_ITHR input').each(function () {
+            if ($(this).val() != "") {
+                var pattern = /^(a|c)-[1-9][0-9]*$/;
+                if (!pattern.test($(this).val())) {
+                    $(this).css("background-color", "yellow");
+                    isValidITHR = false;
+                } else {
+                    $(this).css("background-color", "white");
+                }
+            } else {
+                $(this).css("background-color", "white");
+            }
+        });
+
+        $("#sortable_list1 li .listitem_ITHR input").each(function (i) {
+            if ($(this).val() == "") {
+                $(this).css("background-color", "red");
+                isFilledITHR = false;
+            }
+        });
+
+        if (isValidITHR == false) {
+            alert("Invalid IT/HR input! (Examples of valid values: a-2, a-32, c-143, c-8888) ");
+        }
+
+        if (isFilledITHR == false) {
+            alert("IT/HR required after being prioritized!");
+        }
+
+        return isValidITHR && isFilledITHR;
+    }
+
+</script>

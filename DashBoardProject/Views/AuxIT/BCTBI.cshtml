@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Aux IT";
+
+}
+
+@using DashBoardProject.Models;
+@model List<Atlassian.Jira.Issue>
+
+<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">Dashboards</h6>
+        <h2 class="dashhead-title">Aux IT</h2>
+    </div>
+</div>
+
+<ul class="nav nav-pills">
+    <li>
+        <a href="@Url.Action("OCTBI","AuxIT")">
+            <span class="icon icon-folder"></span>
+            All OCTBI Issues
+        </a>
+    </li>
+    <li class="active">
+        <a href="@Url.Action("BCTBI","AuxIT")">
+            <span class="icon icon-folder"></span>
+            All BCTBI Issues
+        </a>
+    </li>
+</ul>
+<hr class="m-t">
+
+<div class="table-full">
+    <div class="table-responsive">
+        <table class="table table-hover" data-sort="table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Key</th>
+                    <th>Summary</th>
+                    <th>Status</th>
+                    <th>Assignee</th>
+                    <th>Priority</th>
+                    <th>Resolution</th>
+                    <th>Parent</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Type.Id == "6")
+                            {
+                                <span>Sub-Task</span>
+                            }else
+                            {
+                                @Html.DisplayFor(m => item.Type.Name);
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Key.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Summary)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Status.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Assignee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Priority.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Resolution.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Project)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // call the tablesorter plugin
+        $(".table").tablesorter({
+            // Sort on the second column, in ascending order
+            sortList: [[0, 0]]
+        });
+    });
+
+
+</script>

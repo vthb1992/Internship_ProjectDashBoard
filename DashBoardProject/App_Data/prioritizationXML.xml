@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<IssueList>
+	<Issues>
+    <BscmProjectsID>BSCM016750</BscmProjectsID>
+    <BscmProjectsName>To include F15 and F16 in CT benchmark and hold CT benchmark workbook </BscmProjectsName>
+		<PAC>CTPAC/TTMCY</PAC>
+		<Rank>1</Rank>
+		<ITHR>A-15</ITHR>
+		<Benefit>10% RPT Reduction on 110s DRAM</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM016562</BscmProjectsID>
+    <BscmProjectsName>Development of Fast Follower Metric Report</BscmProjectsName>
+		<PAC>TTMCY</PAC>
+		<Rank>2</Rank>
+		<ITHR>A-50</ITHR>
+		<Benefit>Reports to track conversion timing between alpha product and derivative products ensuring key conversions are done fast</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM013583</BscmProjectsID>
+    <BscmProjectsName>Automate Probe Dispo BP in Metastorm
+Post implementation action from QM58 BPI on Probe Disposition Process</BscmProjectsName>
+		<PAC>QMPAC</PAC>
+		<Rank>1</Rank>
+		<ITHR>A-160</ITHR>
+		<Benefit>Case supports QM58, additional benefits for the workhole project, aligns sites on Probe dispo rules
+QM58 3 Yr NPV= $11.2M</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM016996</BscmProjectsID>
+    <BscmProjectsName>Push RA rule information to R2R when RA rule is under subprocess</BscmProjectsName>
+		<PAC>QMPAC</PAC>
+		<Rank>2</Rank>
+		<ITHR>C-15</ITHR>
+		<Benefit>1 line code change to send RA rules in sub processes to R2R. This helps to improve DE R2R controller.
+Expected &lt;15hr IS time. Code modification is available.</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM016997</BscmProjectsID>
+    <BscmProjectsName>Save R2R Data items and R2R model to SDW</BscmProjectsName>
+		<PAC>QMPAC</PAC>
+		<Rank>3</Rank>
+		<ITHR>C-15</ITHR>
+		<Benefit>To enable Virtual Metrology and R2R improvement</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM000000</BscmProjectsID>
+    <BscmProjectsName>To change Dimension Group for PSSF Fab Shipped Yield Percent and PSSF Probe Yield Percent data extracted from SMART into PSSF Metrics Cube</BscmProjectsName>
+		<PAC>TTMCY</PAC>
+		<Rank>3</Rank>
+		<ITHR>A-50</ITHR>
+		<Benefit>Require for FLT meeting</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM003661</BscmProjectsID>
+    <BscmProjectsName>SPACE/MTSPC – OOC Holds By Area </BscmProjectsName>
+		<PAC>Fab 4</PAC>
+		<Rank>1</Rank>
+		<ITHR>C-50</ITHR>
+		<Benefit>CT Benefit</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>MO07</BscmProjectsID>
+    <BscmProjectsName>Max Out Integration with R&amp;D</BscmProjectsName>
+		<PAC>MOPAC</PAC>
+		<Rank>1</Rank>
+		<ITHR>A-350</ITHR>
+		<Benefit>10% RPT Reduction on 110s DRAM</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM017824</BscmProjectsID>
+    <BscmProjectsName>Build Metastorm workflow (forms) for Fab NPI Milestone Review</BscmProjectsName>
+		<PAC>TTMCY</PAC>
+		<Rank>4</Rank>
+		<ITHR>A-200</ITHR>
+		<Benefit>NPI Benefits</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM012184</BscmProjectsID>
+    <BscmProjectsName>Queue Time –Reset Queue Time if lot was reworked</BscmProjectsName>
+		<PAC>Fab 4</PAC>
+		<Rank>2</Rank>
+		<ITHR>C-25</ITHR>
+		<Benefit>Quality Benefits</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>CC45</BscmProjectsID>
+    <BscmProjectsName>Cost Savings Dashboard</BscmProjectsName>
+		<PAC>CTPAC</PAC>
+		<Rank>1</Rank>
+		<ITHR>A-200</ITHR>
+		<Benefit>Enabler</Benefit>
+	</Issues>
+	<Issues>
+    <BscmProjectsID>BSCM012411</BscmProjectsID>
+		<BscmProjectsName>(ISTRK04024834) - A functionality in the WS tab to copy the attributes and parameters over for new WSs from a "like WS".</BscmProjectsName>
+    <PAC>CTPAC</PAC>
+		<Rank>2</Rank>
+		<ITHR>C-50</ITHR>
+		<Benefit>Error prevention when copying attributes in PDM</Benefit>
+	</Issues>
+</IssueList>
